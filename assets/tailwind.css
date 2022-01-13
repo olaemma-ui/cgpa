@@ -1,0 +1,9 @@
+@tailwind  base;
+@tailwind componenet;
+@tailwind utilities;
+
+@layer utilities{
+    .z-in-1{
+        z-index: -1;
+    }
+}
