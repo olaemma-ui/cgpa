@@ -26,7 +26,7 @@
       document.querySelector("#add").classList.replace("text-black", "text-white");
       document.querySelector("#view").classList.replace("text-white", "text-black");
       document.querySelector("#table").classList.add("absolute");
-      // document.querySelector("#lev-btn").classList.add("invisible");
+      document.querySelector("#lev-btn").classList.add("invisible");
     });
     document.querySelector("#view").addEventListener("click", function () {
       document.querySelector("#form").classList.replace("visible", "invisible");
@@ -36,7 +36,7 @@
       document.querySelector("#view").classList.replace("text-black", "text-white");
       document.querySelector("#add").classList.replace("text-white", "text-black");
       document.querySelector("#table").classList.remove("absolute");
-      // document.querySelector("#lev-btn").classList.remove("invisible");
+      document.querySelector("#lev-btn").classList.remove("invisible");
     });
   </script>
 </html>

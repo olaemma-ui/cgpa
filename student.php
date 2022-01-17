@@ -77,7 +77,7 @@
                   <td class="border-r border-t p-2"><?=$row["first"]?></td>
                   <td class="border-r border-t p-2"><?=$row["second"]?></td>
                   <td class="border-r border-t p-2"><?=$row["third"]?></td>
-                  <td class="border-r border-t p-2"><?=$row["forth"]?></td>
+                  <td class="border-r border-t p-2"><?=$row["fourth"]?></td>
                   <td class="border-r border-t p-2"><?=$row["cgpa"]?></td>
 
                   <td class="border-r border-t p-2 text-black flex">
@@ -223,6 +223,7 @@
           }else{
             document.querySelector("#edit-score-alert").classList.replace("bg-red-500", "bg-green-500");
           }
+          table_load();
         }
       }
       var val = document.querySelectorAll(".edit-score")[index].id+document.querySelectorAll(".score")[index].id+document.querySelectorAll(".sem")[index].value;
