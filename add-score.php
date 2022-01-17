@@ -41,41 +41,79 @@
               $point = 0;
               $gp = 0;
               $unit = 0;
-              if ($row["first"] == '0') {
-                for ($i=0; $i < count($number); $i++) {
-                  if ($number[$i] < 40)
-                    $point = 1.0 * $course_unit[$i];
-                  elseif ($number[$i] < 45)
-                    $point = 2.0 * $course_unit[$i];
-                  elseif ($number[$i] < 50)
-                    $point = 2.25 * $course_unit[$i];
-                  elseif ($number[$i] < 55)
-                    $point = 2.5 * $course_unit[$i];
-                  elseif ($number[$i] < 60)
-                    $point = 2.75 * $course_unit[$i];
-                  elseif ($number[$i] < 65)
-                    $point = 3.0 * $course_unit[$i];
-                  elseif ($number[$i] < 70)
-                    $point = 3.25 * $course_unit[$i];
-                  elseif ($number[$i] < 75)
-                    $point = 3.5 * $course_unit[$i];
-                  elseif ($number[$i] < 80)
-                    $point = 3.75 * $course_unit[$i];
-                  elseif ($number[$i] < 100)
-                    $point = 4.0 * $course_unit[$i];
+              for ($i=0; $i < count($number); $i++) {
+                if ($number[$i] < 40)
+                  $point = 1.0 * $course_unit[$i];
+                elseif ($number[$i] < 45)
+                  $point = 2.0 * $course_unit[$i];
+                elseif ($number[$i] < 50)
+                  $point = 2.25 * $course_unit[$i];
+                elseif ($number[$i] < 55)
+                  $point = 2.5 * $course_unit[$i];
+                elseif ($number[$i] < 60)
+                  $point = 2.75 * $course_unit[$i];
+                elseif ($number[$i] < 65)
+                  $point = 3.0 * $course_unit[$i];
+                elseif ($number[$i] < 70)
+                  $point = 3.25 * $course_unit[$i];
+                elseif ($number[$i] < 75)
+                  $point = 3.5 * $course_unit[$i];
+                elseif ($number[$i] < 80)
+                  $point = 3.75 * $course_unit[$i];
+                elseif ($number[$i] < 100)
+                  $point = 4.0 * $course_unit[$i];
 
-                  $gp += $point;
-                  $unit += $course_unit[$i];
-                }
-                echo $GPA = $gp / $unit;
+                $gp += $point;
+                $unit += $course_unit[$i];
+              }
+              if ($row["first"] == '0') {
+                $GPA = round($gp / $unit, 2);
 
                 $update = "UPDATE gradepoint SET first = '".$GPA."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
-                echo $std;
+
                 $query = mysqli_query($con, $update);
                 if ($query) {
                   echo "Score Added <i class='fa fa-graduation-cap'></i>";
                 }
               }
+              else if ($row["second"] == '0') {
+                $GPA = round($gp / $unit, 2);
+                $gp = $GPA;
+                $GPA = round($GPA+$row["first"]/2, 2);
+
+                $update = "UPDATE gradepoint SET second = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
+
+                $query = mysqli_query($con, $update);
+                if ($query) {
+                  echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                }
+              }
+
+              else if ($row["third"] == '0') {
+                $GPA = round($gp / $unit, 2);
+                $gp = $GPA;
+                $GPA = round(($GPA+$row["first"]+$row["second"]) / 3, 2);
+
+                $update = "UPDATE gradepoint SET third = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
+
+                $query = mysqli_query($con, $update);
+                if ($query) {
+                  echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                }
+              }
+              else if ($row["fourth"] == '0') {
+                $GPA = round($gp / $unit, 2);
+                $gp = $GPA;
+                $GPA = round(($GPA+$row["first"]+$row["second"]+$row["third"]) / 4, 2);
+
+                $update = "UPDATE gradepoint SET fourth = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
+
+                $query = mysqli_query($con, $update);
+                if ($query) {
+                  echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                }
+              }
+
             }
           }
 
