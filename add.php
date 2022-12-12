@@ -1,6 +1,6 @@
 <?php
   include "includes/connect.php";
-  if ($_SERVER["REQUEST_METHOD"] == "POST"){
+  if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $course = array();
     $sem = $_GET["stdId"][strlen($_GET["stdId"])-1];
@@ -60,17 +60,18 @@
               $unit += $course_unit[$i];
             }
 
-            // if ($state) {
+            if ($state) {
               for ($j=0; $j < count($number); $j++) {
-                $insert = "INSERT INTO std_score values('', '".$std."', '".$course[$j]."', '".$number[$j]."', '".$sem."', '".$level."')";
+                $scrID = sha1($std.$course[$j]);
+                $insert = "INSERT INTO std_score values('', '".$std."', '".$course[$j]."', '".$number[$j]."', '".$sem."', '".$level."', '".$scrID."')";
                 $query = mysqli_query($con, $insert);
 
                 if ($query) {
                   $status++;
                 }
               }
-              // echo $status;
-              if ($status == count($number)) { 
+              echo $status;
+              if ($status == count($number)) {
                 $j = 0;
                 if ($row["first"] == '0' && $sem == 1) {
                   $GPA = round($gp / $unit, 2);
@@ -124,9 +125,9 @@
                   $state = false;
                 }
                 echo "Score Added <i class='fa fa-graduation-cap'></i>";
-                // echo $j;
+                echo '<script> alert('.$j.')</script>';
               }
-            // }
+            }
           }
         }else echo "Score already Added <i class='text-yellow-300 fa fa-exclamation-triangle'></i>!!";
 

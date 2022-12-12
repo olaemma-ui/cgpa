@@ -106,7 +106,11 @@
                   <?php
                 }
                 else {
-                  echo mysqli_error($con);
+                  ?>
+                    <div class="form-header bg-red-500 p-3 text-white text-xs" id="edit-score-alert">
+                      Sorry Erro Occured
+                    </div>
+                  <?php
                 }
               }else{
               ?>

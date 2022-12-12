@@ -11,7 +11,7 @@
 </head>
 <body class="bg-white overflow-y-auto overflow-x-hidden">
 <?php
-  error_reporting(0);
+  // error_reporting(0);
   // include "includes/session.php";
   include "includes/connect.php";
 ?>

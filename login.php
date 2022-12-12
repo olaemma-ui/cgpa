@@ -13,7 +13,7 @@
           $pass = $row["password"];
           if ($psw_sha == $pass) {
               $_SESSION["userid"] = $row["admin_id"];
-              header("location: dashboar.php");
+              header("location: dashboard.php");
           }else{
             $alert = "Wrong password";
             $psw_err[0] = "********";

@@ -37,7 +37,7 @@
         Course Level
       </label>
       <select name="lev[]" id="lev" class="border shadow text-md w-full h-full p-3 border-l text-black rounded-none mb-3">
-        <option class="text-xl" value="<?=$a[$row["level"]]?>"><?=$a[$row["level"]]?></option>
+        <option class="text-xl" value="<?=$row["level"]?>"><?=$a[$row["level"]]?></option>
         <option value="<?=$arr_key[0]?>"><?=$arr[0]?></option>
         <option value="<?=$arr_key[1]?>"><?=$arr[1]?></option>
         <option value="<?=$arr_key[2]?>"><?=$arr[2]?></option>

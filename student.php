@@ -209,7 +209,7 @@
     xml.send(form);
   })
 
-  function add_score(){
+  function add_score() async{
     document.querySelector("#add_score").addEventListener("click", function (e) {
       e.preventDefault();
       var form = new FormData(document.querySelector("#score_form"));
@@ -222,17 +222,18 @@
             document.querySelector("#edit-score-alert").classList.replace("bg-green-500", "bg-red-500");
           }else{
             document.querySelector("#edit-score-alert").classList.replace("bg-red-500", "bg-green-500");
+            document.querySelector("#score_form").reset();
           }
-          table_load();
+          await table_load();
         }
       }
       var val = document.querySelectorAll(".edit-score")[index].id+document.querySelectorAll(".score")[index].id+document.querySelectorAll(".sem")[index].value;
-      xmlHttp.open("POST", "add-score.php?stdId="+val, true)
+      xmlHttp.open("POST", "add.php?stdId="+val, true)
       xmlHttp.send(form);
     })
   }
 
-  function edit_score(){
+  function edit_score() async{
     if (!state) {
       document.querySelector("#edit-score").addEventListener("click", function (e) {
         e.preventDefault();
@@ -249,6 +250,7 @@
               document.querySelector("#score_elem").innerHTML = this.responseText
             }
             state=!state;
+            await table_load();
           }
         }
         var val = document.querySelectorAll(".edit-score")[index].id+document.querySelectorAll(".score")[index].id+document.querySelectorAll(".sem")[index].value;
@@ -378,6 +380,12 @@
     xml.onreadystatechange = function () {
       if(this.readyState == 4 && this.status == 200) {
         document.querySelector("#tbl_response").innerHTML = this.responseText;
+        std();
+        view_score();
+        add_score();
+        edit_score();
+        std();
+        del_std();
       }
     }
     xml.open("GET", "load.php?id="+id, true);

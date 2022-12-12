@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
   else {
-    $select = "SELECT * FROM course WHERE course_code = '".$uname[0]."' && semester = '".$number[1]."'";
+    $select = "SELECT * FROM course WHERE course_code = '".$uname[0]."' && level = '".$lev[0]."'";
     if (mysqli_num_rows(mysqli_query($con, $select)) > 0) {
       echo "Course already EXisit **";
     }else{
