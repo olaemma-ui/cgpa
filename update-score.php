@@ -7,25 +7,27 @@
       include "includes/validate.php";
       if (empty($number_err)) {
 
-        $select = "SELECT * FROM LEVEL  ORDER BY id ASC";
-        $query = mysqli_query($con, $select);
-        while ($row = mysqli_fetch_array($query)) {
-          array_push($arr, $row["level"]);
-          array_push($arr_key, $row["levelID"]);
-          $a [$row["levelID"]] = $row["level"];
-          $i++;
-        }
+        // $select = "SELECT * FROM LEVEL  ORDER BY id ASC";
+        // $query = mysqli_query($con, $select);
+        // while ($row = mysqli_fetch_array($query)) {
+        //   array_push($arr, $row["level"]);
+        //   array_push($arr_key, $row["levelID"]);
+        //   $a [$row["levelID"]] = $row["level"];
+        //   $i++;
+        // }
 
         $sem = $_GET["stdId"][strlen($_GET["stdId"])-1];
         $std = substr($_GET["stdId"], 0, 40);
-        $level = substr($_GET["stdId"], 40, 40 );
+        $level = (substr($_GET["stdId"], 40, 3) == 'HND') ? 'HND' : 'ND';
 
         $sel = "SELECT * FROM std_score INNER JOIN course on std_score.courseID = course.course_id  WHERE std_score.semester = '".$sem."' AND std_score.level = '".$level."' AND std_score.stdID = '".$std."'  ORDER BY course.id DESC";
         $query = mysqli_query($con, $sel);
 
         if (mysqli_num_rows($query) != 0) {
+          $course_unit = array();
           $i = 0;
           while ($row = mysqli_fetch_array($query)) {
+            $course_unit[$i] = $row["course_unit"];
             $update = "UPDATE std_score SET score = '".$number[$i]."' WHERE stdID = '".$std."' AND courseID = '".$row["courseID"]."'";
             $q = mysqli_query($con, $update);
             if ($q) {
@@ -40,6 +42,7 @@
             $gp = 0;
             $unit = 0;
 
+            // print_r($number);
             for ($i=0; $i < count($number); $i++) {
               if ($number[$i] < 40)
                 $point = 1.0 * $course_unit[$i];
@@ -65,8 +68,9 @@
               $gp += $point;
               $unit += $course_unit[$i];
             }
-            if ($level == $arr_key[0]) {
-              echo "first".$GPA = round($gp / $unit, 2);
+            if ($sem == 1) {
+              
+              $GPA = round($gp / $unit, 2);
 
               $update = "UPDATE gradepoint SET first = '".$GPA."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
 
@@ -75,40 +79,40 @@
                 echo "Score Updated <i class='fa fa-upload'></i>";
               }
             }
-            else if ($level == $arr_key[1]) {
+            else if ($sem == 2) {
               $GPA = round($gp / $unit, 2);
               $gp = $GPA;
-              echo "second". $GPA = round($GPA+$row["first"]/2, 2);
+              $GPA = round($GPA+$row["first"]/2, 2);
 
               $update = "UPDATE gradepoint SET second = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
 
               $query = mysqli_query($con, $update);
               if ($query) {
-                echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                echo "Score Updated <i class='fa fa-graduation-cap'></i>";
               }
             }
-            else if ($level == $arr_key[2]) {
+            else if ($sem == 3) {
               $GPA = round($gp / $unit, 2);
               $gp = $GPA;
-              echo "first".$GPA = round(($GPA+$row["first"]+$row["second"]) / 3, 2);
+              $GPA = round(($GPA+$row["first"]+$row["second"]) / 3, 2);
 
               $update = "UPDATE gradepoint SET third = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
 
               $query = mysqli_query($con, $update);
               if ($query) {
-                echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                echo "Score Updated <i class='fa fa-graduation-cap'></i>";
               }
             }
-            else if ($level == $arr_key[3]) {
+            else if ($sem == 4) {
               $GPA = round($gp / $unit, 2);
               $gp = $GPA;
-              echo "first".$GPA = round(($GPA+$row["first"]+$row["second"]+$row["third"]) / 4, 2);
+              $GPA = round(($GPA+$row["first"]+$row["second"]+$row["third"]) / 4, 2);
 
               $update = "UPDATE gradepoint SET fourth = '".$gp."', cgpa = '".$GPA."' WHERE stdId = '".$std."'";
 
               $query = mysqli_query($con, $update);
               if ($query) {
-                echo "Score Added <i class='fa fa-graduation-cap'></i>";
+                echo "Score Updated <i class='fa fa-graduation-cap'></i>";
               }
             }else{
               echo "No Score for Previous Session <i class='fa fa-exclamation-triangle'></i>";

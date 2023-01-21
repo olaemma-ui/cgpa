@@ -15,33 +15,29 @@
 
     <div class="tabs w-full flex shadow p-2 bg-white border md:mt-1 mt-2 sticky" id="lev-btn" style="top: 7rem;">
       <?php
-        $select = "SELECT * FROM LEVEL  ORDER BY id ASC";
-        $query = mysqli_query($con, $select);
-        $arr = array();
-        $arr_key = array();
-        while ($row = mysqli_fetch_array($query)) {
-          array_push($arr, $row["level"]);
-          array_push($arr_key, $row["levelID"]);
-        }
+        $arr_key = ["ND", "HND"];
       ?>
-        <button class="std-course bg-blue-700 text-sm text-white border p-1 text-md w-20" id="<?=$arr_key[0]?>">
-        <?=$arr[0]?>
+        <button class="std-course bg-blue-700 text-sm text-white border p-1 text-md w-20" id="ND">
+          ND
         </button>
 
-        <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border" id="<?=$arr_key[1]?>">
-        <?=$arr[1]?>
+        <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border"" id="HND">
+          HND
         </button>
 
-        <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border" id="<?=$arr_key[2]?>">
-          <?=$arr[2]?>
+        <!-- <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border"" id="HND1">
+          HND 1
         </button>
 
-        <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border" id="<?=$arr_key[3]?>">
-          <?=$arr[3]?>
-        </button>
-        <select name="semester" id="session" class="ml-2 text-sm text-black p-1 bg-white  text-md w-20 border">
+        <button class="std-course ml-2 text-sm text-black p-1 bg-white  text-md w-20 border" id="HND2">
+          HND 2
+        </button> -->
+
+        <select name="semester" id="semester" class="ml-2 text-sm text-black p-1 bg-white  text-md w-20 border">
             <option value="1">1<sup>st</sup> Semester</option>
             <option value="2">2<sup>nd</sup> Semester</option>
+            <option value="3">3<sup>rd</sup> Semester</option>
+            <option value="4">4<sup>th</sup> Semester</option>
           </select>
       </div>
     <div class="tog mt-8">
@@ -49,19 +45,19 @@
         <div class="overflow-y-scroll p-3 w-full">
           <div class="form-header bg-red-500 text-white text-xs mt-2" id="del-course">
           </div>
-          <table class="bg-dark text-center md:w-full tbl">
+          <table class="bg-dark text-center w-100 md:w-full tbl">
             <thead class="bg-darker text-xs">
               <th class="p-2 border-r-dark w-16">SN</th>
               <th class="p-2 border-r">Code</th>
               <th class="p-2 border-r">Title</th>
               <th class="p-2 border-r">Unit</th>
-              <th class="p-2 border-r">Session</th>
+              <th class="p-2 border-r">Semester</th>
               <th class="p-2" colspan="2">ACTION</th>
             </thead>
 
             <tbody class="text-xs" id="tbl_response">
             <?php
-              $select = "SELECT * FROM course WHERE level = '".$arr_key[0]."' AND semester = '1'";
+              $select = "SELECT * FROM course WHERE level = '".$arr_key[0]."' AND semester = '1' AND sessionId ='0987654321'";
               $query = mysqli_query($con, $select);
               $i = 0;
               while ($row = mysqli_fetch_array($query)) {
@@ -168,10 +164,8 @@
               </label>
               <select name="lev[]" id="levder" class="border shadow text-xs w-full h-full p-3 border-l text-blue-400 rounded-none mb-3">
                 <option class="text-xl" value="....">....</option>
-                <option value="<?=$arr_key[0]?>"><?=$arr[0]?></option>
-                <option value="<?=$arr_key[1]?>"><?=$arr[1]?></option>
-                <option value="<?=$arr_key[2]?>"><?=$arr[2]?></option>
-                <option value="<?=$arr_key[3]?>"><?=$arr[3]?></option>
+                <option value="ND">ND</option>
+                <option value="HND">HND</option>
               </select>
 
               <label for="title" class="text-sm">
@@ -181,6 +175,8 @@
                 <option class="text-xl" value="">....</option>
                 <option value="1">1<sup>st</sup> Semester</option>
                 <option value="2">2<sup>nd</sup> Semester</option>
+                <option value="3">3<sup>rd</sup> Semester</option>
+                <option value="4">4<sup>th</sup> Semester</option>
               </select>
 
               <button name="course" class="btn bg-green-500 p-2 text-white text-sm w-20 justify-self-end" style="align-self: flex-end;" id="add_course">
@@ -210,7 +206,7 @@
         }else{
           document.querySelector("#alert-course").classList.replace("bg-red-400", "bg-green-500");
         }
-        table_load();
+        table_load(index);
       }
     }
     xml.open("POST", "add_course.php", true);
@@ -256,9 +252,9 @@
     }
   }
   var id = document.querySelectorAll(".std-course")[0].id;
-  var session = document.querySelector("#session").value;
+  var semester = document.querySelector("#semester").value;
   onload = table_load(0);
-  document.querySelector("#session").addEventListener("click", function () {
+  document.querySelector("#semester").addEventListener("click", function () {
     table_load(index);
   })
 
@@ -271,15 +267,18 @@
         del_course();
       }
     }
-    xml.open("GET", "course-load.php?id="+document.querySelectorAll(".std-course")[i].id+document.querySelector("#session").value, true);
+    // alert("i = "+i );
+    // alert(document.querySelectorAll(".std-course")[i]);
+    xml.open("GET", "course-load.php?id="+document.querySelectorAll(".std-course")[i].id+document.querySelector("#semester").value, true);
     xml.send();
   }
 
 
   for (let i = 0; i < document.querySelectorAll(".std-course").length; i++) {
       document.querySelectorAll(".std-course")[i].addEventListener("click", function (e) {
+        // alert("ola");
       var xml = new XMLHttpRequest();
-      session = document.querySelector("#session").value;
+      semester = document.querySelector("#semester").value;
       xml.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
           id = document.querySelectorAll(".std-course")[i].id;
@@ -291,11 +290,15 @@
             document.querySelectorAll(".std-course")[i].classList.replace("text-black", "text-white")
             index = i;
           }
-          session = document.querySelector("#session").value;
+
+          // alert('i2 = '+i)
+          semester = document.querySelector("#semester").value;
           table_load(i);
         }
       }
-        xml.open("GET", "course-load.php?id="+document.querySelectorAll(".std-course")[i].id+session)
+
+      console.log(document.querySelectorAll(".std-course")[i].id+semester);
+        xml.open("GET", "course-load.php?id="+document.querySelectorAll(".std-course")[i].id+semester)
       xml.send();
     });
   }

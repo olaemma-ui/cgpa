@@ -5,7 +5,7 @@
       if (empty($number_err)) {
         $sem = $_GET["stdId"][strlen($_GET["stdId"])-1];
         $std = substr($_GET["stdId"], 0, 40);
-        $level = substr($_GET["stdId"], 40, 40 );
+        $level = (substr($_GET["stdId"], 40, 3) == 'HND') ? 'HND' : 'ND';
 
         $sel = "SELECT * FROM std_score INNER JOIN course on std_score.courseID = course.course_id  WHERE std_score.semester = '".$sem."' AND std_score.level = '".$level."' AND std_score.stdID = '".$std."'  ORDER BY course.id DESC";
         $query = mysqli_query($con, $sel);

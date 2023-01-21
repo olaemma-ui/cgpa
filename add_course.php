@@ -45,7 +45,7 @@ function validate ($data){
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+  
   if (isset($_POST["name"])) {
     for ($i=0; $i < count($_POST["name"]); $i++) {
       if (!empty($_POST["name"][$i])) {
@@ -124,11 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
   else {
-    $select = "SELECT * FROM course WHERE course_code = '".$uname[0]."' && level = '".$lev[0]."'";
+    $select = "SELECT * FROM course WHERE course_code = '".$uname[0]."' && level = '".$lev[0]."' AND sessionId = '0987654321'";
     if (mysqli_num_rows(mysqli_query($con, $select)) > 0) {
       echo "Course already EXisit **";
     }else{
-      $insert = "INSERT INTO course values('', '".$name[0]."', '".$uname[0]."', '".sha1(UserID())."', '".$number[0]."', '".$lev[0]."', '".$number[1]."')";
+      $insert = "INSERT INTO course values('', '".$name[0]."', '".$uname[0]."', '".sha1(UserID())."', '".$number[0]."', '".$lev[0]."', '".$number[1]."', '0987654321')";
       $query = mysqli_query($con, $insert);
       if ($query) {
         echo "Course Added";

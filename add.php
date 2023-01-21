@@ -5,17 +5,23 @@
     $course = array();
     $sem = $_GET["stdId"][strlen($_GET["stdId"])-1];
     $std = substr($_GET["stdId"], 0, 40);
-    $level = substr($_GET["stdId"], 40, 40 );
+    $level = (substr($_GET["stdId"], 40, 3) == 'HND') ? 'HND' : 'ND';
     $course_unit = array();
 
       include "includes/validate.php";
       if (empty($number_err)) {
 
-        $select = "SELECT * FROM std_score WHERE semester = '".$sem."' AND level = '".$level."' AND stdID = '".$std."' ORDER BY id DESC";
+        $select = "SELECT * FROM std_score WHERE 
+        semester = '".$sem."' AND 
+        level = '".$level."' AND 
+        stdID = '".$std."' ORDER BY id DESC";
         $query = mysqli_query($con, $select);
         if (mysqli_num_rows($query) == 0) {
 
-          $select = "SELECT * FROM course WHERE semester = '".$sem."' AND level = '".$level."' ORDER BY id DESC";
+          $select = "SELECT * FROM course 
+          WHERE semester = '".$sem."' AND 
+          sessionId = '0987654321' AND 
+          level = '".$level."' ORDER BY id DESC";
           $query = mysqli_query($con, $select);
           if ($query) {
             $i = 0;
@@ -26,7 +32,7 @@
               $course_unit[$i] = $row["course_unit"];
               $i++;
             }
-
+            // echo $_GET["stdId"];
             $select = "SELECT * FROM gradepoint WHERE stdId = '".$std."'";
             $row = mysqli_fetch_array(mysqli_query($con, $select));
             $point = 0;
@@ -62,15 +68,15 @@
 
             if ($state) {
               for ($j=0; $j < count($number); $j++) {
+                
                 $scrID = sha1($std.$course[$j]);
                 $insert = "INSERT INTO std_score values('', '".$std."', '".$course[$j]."', '".$number[$j]."', '".$sem."', '".$level."', '".$scrID."')";
                 $query = mysqli_query($con, $insert);
-
+                
                 if ($query) {
                   $status++;
                 }
               }
-              echo $status;
               if ($status == count($number)) {
                 $j = 0;
                 if ($row["first"] == '0' && $sem == 1) {
@@ -97,7 +103,7 @@
                     $j++;
                   }
                 }
-                else if ($row["third"] == '0' && $row["second"] > 0 && $sem == 1) {
+                else if ($row["third"] == '0' && $row["first"] > 0 && $row["second"] > 0 && $sem == 3) {
                   $GPA = round($gp / $unit, 2);
                   $gp = $GPA;
                   $GPA = round(($GPA+$row["first"]+$row["second"]) / 3, 2);
@@ -109,7 +115,7 @@
                     $state = true;
                   }
                 }
-                else if ($row["fourth"] == '0' && $row["third"] > 0 && $sem == 2) {
+                else if ($row["fourth"] == '0' && $row["third"] > 0 && $row["second"] > 0 && $row["first"] > 0&& $sem == 4) {
                   $GPA = round($gp / $unit, 2);
                   $gp = $GPA;
                   $GPA = round(($GPA+$row["first"]+$row["second"]+$row["third"]) / 4, 2);
@@ -125,7 +131,6 @@
                   $state = false;
                 }
                 echo "Score Added <i class='fa fa-graduation-cap'></i>";
-                echo '<script> alert('.$j.')</script>';
               }
             }
           }

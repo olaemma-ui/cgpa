@@ -102,14 +102,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       echo "Matric already EXisit **";
     }else{
       $usd = sha1(userID());
-      $insert = "INSERT INTO student values('', '".$matric[0]."', '".$name[0]."', '".$lev."', '".$usd."')";
+      $insert = "INSERT INTO student values('', '".$matric[0]."', '".$name[0]."', '".$lev."', '".$usd."', '0987654321')";
       $query = mysqli_query($con, $insert);
       if ($query) {
         $insert = "INSERT INTO gradepoint values('', '".$usd."', '0', '0', '0', '0', '0')";
         $query = mysqli_query($con, $insert);
         if ($query) {
           echo "Student Added";
-        }
+        }else echo "";
       }
     }
   }

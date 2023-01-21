@@ -5,11 +5,14 @@
     $course = array();
     $sem = $_GET["stdId"][strlen($_GET["stdId"])-1];
     $std = substr($_GET["stdId"], 0, 40);
-    $level = substr($_GET["stdId"], 40, 40 );
+    // $level = substr($_GET["stdId"], 40, 40 );
+    $level = (substr($_GET["stdId"], 40, 3) == 'HND') ? 'HND' : 'ND';
     $course_unit = array();
 
       include "includes/validate.php";
       if (empty($number_err)) {
+
+        echo '<script> alert("olaemma")</script>';
 
         $select = "SELECT * FROM std_score WHERE semester = '".$sem."' AND level = '".$level."' AND stdID = '".$std."' ORDER BY id DESC";
         $query = mysqli_query($con, $select);
