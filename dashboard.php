@@ -3,7 +3,7 @@
   include "includes/connect.php";
 ?>
   <div class="content dash-body p-3">
-    <div class="cards flex lg:flex-nowrap flex-wrap justify-between">
+    <div class="cards flex lg:flex-nowrap flex-wrap">
       <div class="card-1 p-2 bg-white shadow flex md:w-3/12 w-full h-40">
         <div class="circle rounded p-2 w-32 h-32 bg-blue-400 shadow-xl">
           <div class="circle rounded p-2 w-28 h-28 bg-white shadow-md text-center text-5xl pt-6">
@@ -32,21 +32,6 @@
           </div>
         </div>
       </div>
-
-      <div class="card-1 p-2 bg-white shadow flex md:w-3/12 w-full h-40">
-        <div class="circle rounded p-2 w-32 h-32 bg-blue-400 shadow-xl">
-          <div class="circle rounded p-2 w-28 h-28 bg-white shadow-md text-center text-5xl pt-6">
-          <?= mysqli_num_rows(mysqli_query($con, "SELECT * FROM level")); ?>
-          </div>
-        </div>
-
-        <div class="txt ml-2 w-full">
-          <div class="top  bg-blue-200 p-1 rounded text-center flex flex-wrap justify-center">
-            <i class="fa fa-align-left text-2xl"></i> Total Levels
-          </div>
-
-        </div>
-      </div>
     </div>
 
     <div class="w-full mt-4">
@@ -63,7 +48,8 @@
 
         <tbody class="text-xs" id="tbl_response">
           <?php
-            $select = "SELECT * FROM ((student INNER JOIN level on student.level = level.levelID) INNER JOIN gradepoint on student.stdID = gradepoint.stdID) ORDER BY matric ASC";
+            $select = "SELECT * FROM (student INNER JOIN gradepoint on student.stdID = gradepoint.stdID) 
+              ORDER BY matric ASC";
             $query = mysqli_query($con, $select);
             $i = 0;
             while ($row = mysqli_fetch_array($query)) {

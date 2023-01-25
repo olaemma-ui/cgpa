@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2022 at 11:38 PM
+-- Generation Time: Jan 25, 2023 at 11:40 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `cgpa`
+-- Database: `cgpa_grading`
 --
 
 -- --------------------------------------------------------
@@ -55,7 +55,8 @@ CREATE TABLE `course` (
   `course_id` varchar(200) NOT NULL,
   `course_unit` int(11) NOT NULL,
   `level` varchar(500) NOT NULL,
-  `semester` int(11) NOT NULL
+  `semester` int(11) NOT NULL,
+  `sessionId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -74,7 +75,31 @@ CREATE TABLE `gradepoint` (
   `cgpa` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `gradepoint`
+--
+
+INSERT INTO `gradepoint` (`id`, `stdId`, `first`, `second`, `third`, `fourth`, `cgpa`) VALUES
+(1, '8f019c518f93bab19664d98f34e403b7556b01f1', 2, 0, 0, 0, 2);
+
 -- --------------------------------------------------------
+
+--
+-- Table structure for table `session`
+--
+
+CREATE TABLE `session` (
+  `id` int(11) NOT NULL,
+  `session` varchar(255) NOT NULL,
+  `sessionId` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `session`
+--
+
+INSERT INTO `session` (`id`, `session`, `sessionId`) VALUES
+(1, '2019', '0987654321');
 
 -- --------------------------------------------------------
 
@@ -103,7 +128,8 @@ CREATE TABLE `student` (
   `matric` varchar(10) NOT NULL,
   `std_name` text NOT NULL,
   `level` varchar(500) NOT NULL,
-  `stdID` varchar(500) NOT NULL
+  `stdId` varchar(255) DEFAULT NULL,
+  `sessionId` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -124,7 +150,8 @@ ALTER TABLE `admin`
 ALTER TABLE `course`
   ADD PRIMARY KEY (`course_id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `course_code` (`course_code`);
+  ADD UNIQUE KEY `course_code` (`course_code`),
+  ADD UNIQUE KEY `id_2` (`id`);
 
 --
 -- Indexes for table `gradepoint`
@@ -134,69 +161,49 @@ ALTER TABLE `gradepoint`
   ADD UNIQUE KEY `id` (`id`);
 
 --
--- Indexes for table `level`
+-- Indexes for table `session`
 --
-ALTER TABLE `level`
-  ADD PRIMARY KEY (`levelID`),
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`sessionId`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `level` (`level`),
-  ADD UNIQUE KEY `id_2` (`id`);
+  ADD UNIQUE KEY `session` (`session`),
+  ADD UNIQUE KEY `sessionId` (`sessionId`);
 
 --
 -- Indexes for table `std_score`
 --
 ALTER TABLE `std_score`
-  ADD PRIMARY KEY (`courseID`),
-  ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `scoreID` (`scoreID`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `student`
 --
 ALTER TABLE `student`
-  ADD PRIMARY KEY (`stdID`),
-  ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `matric` (`matric`);
+  ADD PRIMARY KEY (`matric`),
+  ADD UNIQUE KEY `matric` (`matric`),
+  ADD UNIQUE KEY `stdID` (`stdId`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `gradepoint`
 --
 ALTER TABLE `gradepoint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `level`
+-- AUTO_INCREMENT for table `session`
 --
-ALTER TABLE `level`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `std_score`
---
-ALTER TABLE `std_score`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `student`
---
-ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

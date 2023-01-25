@@ -28,9 +28,9 @@
             inner join course on std_score.courseID = course.course_id 
             where student.matric = '".$_GET['matric']."'";
 
-            $query = mysqli_query($con, $select);
-            $gp = array();
-            $cgpa = 0.00;
+            // $query = mysqli_query($con, $select);
+            // $gp = array();
+            // $cgpa = 0.00;
         ?>
         <div class="flex flex-wrap">
             <div class="nd1 w-1/2 p-2">
@@ -38,26 +38,34 @@
                     <h3>1<sup>st</sup> Semester ND1</h3>
                 </header>
                 <?php 
-                    while ($row = mysqli_fetch_array($query)) {
-                        // print_r($row);
-                        $gp[0] = $row['first'];
-                        $gp[1] = $row['second'];
-                        $gp[2] = $row['third'];
-                        $gp[3] = $row['fourth'];
-                        $cgpa = $row['cgpa'];
+                 $select = "SELECT * from student 
+                 inner join gradepoint on student.stdId = gradepoint.stdId 
+                 inner join std_score on student.stdId = std_score.stdID 
+                 inner join course on std_score.courseID = course.course_id 
+                 where student.matric = '".$_GET['matric']."'";
+                 $gp = 0.00;
+                 $cgpa = 0.00;
+                 $query = mysqli_query($con, $select);
+                while ($row = mysqli_fetch_array($query)) {
+                    // print_r($row);
+                    // $gp[0] = $row['first'];
+                    // $gp[1] = $row['second'];
+                    // $gp[2] = $row['third'];
+                    $gp = $row['first'];
+                    $cgpa = $row['cgpa'];
 
-                        if ($row['semester'] == 1){
-                            ?>
-                                <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
-                                    <p class='course pt-2'><?=$row['course_title']?><p>
-                                    <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
-                                </div>
-                            <?php
-                        }
+                    if ($row['semester'] == 1){
+                        ?>
+                            <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
+                                <p class='course pt-2'><?=$row['course_title']?><p>
+                                <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
+                            </div>
+                        <?php
                     }
+                }
                 ?>
 
-                <p class="score" style='font-size: 20px;'>GPA: <?=$gp[0]?></p>
+                <p class="score" style='font-size: 20px;'>GPA: <?=$gp?></p>
             </div>
 
             <div class="nd1 w-1/2 p-2">
@@ -65,8 +73,22 @@
                     <h3>2<sup>nd</sup> Semester ND1</h3>
                 </header>
                 <?php 
+                 $select = "SELECT * from student 
+                 inner join gradepoint on student.stdId = gradepoint.stdId 
+                 inner join std_score on student.stdId = std_score.stdID 
+                 inner join course on std_score.courseID = course.course_id 
+                 where student.matric = '".$_GET['matric']."'";
+                 $gp = 0.00;
+                 $cgpa = 0.00;
+                 $query = mysqli_query($con, $select);
                     while ($row = mysqli_fetch_array($query)) {
                         // print_r($row);
+                        // $gp[0] = $row['first'];
+                        // $gp[1] = $row['second'];
+                        // $gp[2] = $row['third'];
+                        $gp = $row['second'];
+                        $cgpa = $row['cgpa'];
+
                         if ($row['semester'] == 2){
                             ?>
                                 <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
@@ -77,8 +99,7 @@
                         }
                     }
                 ?>
-
-                <p class="score" style='font-size: 20px;'>GPA: <?=$gp[1]?></p>
+                <p class="score" style='font-size: 20px;'>GPA: <?=$gp?></p>
             </div>
 
 
@@ -87,20 +108,33 @@
                     <h3>1<sup>st</sup> Semester ND2</h3>
                 </header>
                 <?php 
-                    while ($row = mysqli_fetch_array($query)) {
-                        // print_r($row);
-                        if ($row['semester'] == 3){
-                            ?>
-                                <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
-                                    <p class='course pt-2'><?=$row['course_title']?><p>
-                                    <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
-                                </div>
-                            <?php
-                        }
-                    }
-                ?>
+                 $select = "SELECT * from student 
+                 inner join gradepoint on student.stdId = gradepoint.stdId 
+                 inner join std_score on student.stdId = std_score.stdID 
+                 inner join course on std_score.courseID = course.course_id 
+                 where student.matric = '".$_GET['matric']."'";
+                 $gp = 0.00;
+                 $cgpa = 0.00;
+                 $query = mysqli_query($con, $select);
+                while ($row = mysqli_fetch_array($query)) {
+                    // print_r($row);
+                    // $gp[0] = $row['first'];
+                    // $gp[1] = $row['second'];
+                    // $gp[2] = $row['third'];
+                    $gp = $row['third'];
+                    $cgpa = $row['cgpa'];
 
-                <p class="score" style='font-size: 20px;'>GPA: <?=$gp[2]?></p>
+                    if ($row['semester'] == 3){
+                        ?>
+                            <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
+                                <p class='course pt-2'><?=$row['course_title']?><p>
+                                <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
+                            </div>
+                        <?php
+                    }
+                }
+                ?>
+                <p class="score" style='font-size: 20px;'>GPA: <?=$gp?></p>
             </div>
 
 
@@ -109,20 +143,34 @@
                     <h3>2<sup>nd</sup> Semester ND2</h3>
                 </header>
                 <?php 
-                    while ($row = mysqli_fetch_array($query)) {
-                        // print_r($row);
-                        if ($row['semester'] == 4){
-                            ?>
-                                <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
-                                    <p class='course pt-2'><?=$row['course_title']?><p>
-                                    <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
-                                </div>
-                            <?php
-                        }
+                 $select = "SELECT * from student 
+                 inner join gradepoint on student.stdId = gradepoint.stdId 
+                 inner join std_score on student.stdId = std_score.stdID 
+                 inner join course on std_score.courseID = course.course_id 
+                 where student.matric = '".$_GET['matric']."'";
+                 $gp = 0.00;
+                 $cgpa = 0.00;
+                 $query = mysqli_query($con, $select);
+                while ($row = mysqli_fetch_array($query)) {
+                    // print_r($row);
+                    // $gp[0] = $row['first'];
+                    // $gp[1] = $row['second'];
+                    // $gp[2] = $row['third'];
+                    $gp = $row['fourth'];
+                    $cgpa = $row['cgpa'];
+
+                    if ($row['semester'] == 4){
+                        ?>
+                            <div class="result flex justify-between shadow pl-3 pr-3" style='font-size: 20px; border-bottom: solid 1px grey'>
+                                <p class='course pt-2'><?=$row['course_title']?><p>
+                                <p class="score p-2" style='border-left: solid 2px grey;'><?=$row['score']?></p>
+                            </div>
+                        <?php
                     }
+                }
                 ?>
 
-                <p class="score" style='font-size: 20px;'>GPA: <?=$gp[3]?></p>
+                <p class="score" style='font-size: 20px;'>GPA: <?=$gp?></p>
             </div>
         </div>
 

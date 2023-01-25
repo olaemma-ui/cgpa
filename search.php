@@ -2,10 +2,10 @@
     include "includes/connect.php";
     $txt = $_GET["txt"];
     if ($txt != '') {
-    $select = "SELECT * FROM ((student INNER JOIN level on student.level = level.levelID) INNER JOIN gradepoint on student.stdID = gradepoint.stdID) WHERE matric LIKE '%".$txt."%' ORDER BY matric ASC";
+    $select = "SELECT * FROM student INNER JOIN gradepoint on student.stdID = gradepoint.stdID WHERE matric LIKE '%".$txt."%' ORDER BY matric ASC";
     }
     else {
-      $select = "SELECT * FROM ((student INNER JOIN level on student.level = level.levelID) INNER JOIN gradepoint on student.stdID = gradepoint.stdID) ORDER BY matric ASC";
+      $select = "SELECT * FROM student INNER JOIN gradepoint on student.stdID = gradepoint.stdID ORDER BY matric ASC";
     }
     $query = mysqli_query($con, $select);
     $i = 0;
